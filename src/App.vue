@@ -2,13 +2,12 @@
   <div id="app">
     <el-row :gutter="20">
       <!-- Header -->
-      <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+      <el-col :span="6"><div class="grid-content bg-purple header-logo"></div></el-col>
       <el-col :span="18"
-        ><div class="grid-content bg-purple">
+        ><div class="grid-content bg-purple header-right">
           <div>
-            <el-input
-              placeholder="Please input"
-              v-model="input3"
+            <el-input placeholder="Please input"
+              v-model="input"
               class="input-with-select"
             >
               <el-select v-model="select" slot="prepend" placeholder="Select">
@@ -25,23 +24,21 @@
       <!-- Nav -->
       <el-col :span="6" 
         ><div class="grid-content bg-purple nav-left">
-          <el-menu
+          <el-menu v-for="item in menubar" :key="item.id"
             default-active="2"
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
             background-color="#545c64"
             text-color="#fff"
-            active-text-color="#ffd04b"
-          >
+            active-text-color="#ffd04b">
             <el-submenu index="1">
               <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>Navigator One</span>
+                <i class="el-icon-s-home"></i>
+                <span>{{ item.title }}</span>
               </template>
-              <el-menu-item-group title="Group One">
-                <el-menu-item index="1-1">item one</el-menu-item>
-                <el-menu-item index="1-2">item one</el-menu-item>
+              <el-menu-item-group  v-for="subItem in item.list" :key="subItem.id">
+                <el-menu-item index="1-1">{{ subItem.title }}</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group title="Group Two">
                 <el-menu-item index="1-3">item three</el-menu-item>
@@ -54,10 +51,6 @@
             <el-menu-item index="2">
               <i class="el-icon-menu"></i>
               <span>Navigator Two</span>
-            </el-menu-item>
-            <el-menu-item index="3" disabled>
-              <i class="el-icon-document"></i>
-              <span>Navigator Three</span>
             </el-menu-item>
             <el-menu-item index="4">
               <i class="el-icon-setting"></i>
@@ -79,6 +72,120 @@ export default {
   data() {
     return {
       input: "Hello ",
+      menubar:[{
+        id: 1,
+        title: "Home",
+        subtitle: "",
+        desc: " lorem ipsum dolor ",
+        list: [
+          {
+            id: 1,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          },
+          {
+            id: 2,
+            title: "lorem ipsum dolor"
+          },
+          {
+            id: 3,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          },
+          {
+            id: 4,
+            title:
+              " lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor "
+          },
+          {
+            id: 5,
+            title: "lorem ipsum dolor"
+          },
+          {
+            id: 6,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          }
+        ],
+        extra_title: "lorem ipsum dolor",
+        extra_text:
+          " lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolorlorem ipsum dolor lorem ipsum dolor ",
+        extra2_title: "lorem ipsum dolor",
+        extra2_text: " lorem ipsum dolor lorem ipsum dolor "
+      },
+      {
+        id: 2,
+        title: " лоремова 2 ",
+        subtitle: " ипсума анатольевна ",
+        desc: " lorem ipsum dolor ",
+        list: [
+          {
+            id: 1,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          },
+          {
+            id: 2,
+            title: "lorem ipsum dolor"
+          },
+          {
+            id: 3,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          },
+          {
+            id: 4,
+            title:
+              " lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor "
+          },
+          {
+            id: 5,
+            title: "lorem ipsum dolor"
+          },
+          {
+            id: 6,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          }
+        ],
+        extra_title: "lorem ipsum dolor",
+        extra_text:
+          " lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolorlorem ipsum dolor lorem ipsum dolor ",
+        extra2_title: "lorem ipsum dolor",
+        extra2_text: " lorem ipsum dolor lorem ipsum dolor "
+      },
+      {
+        id: 3,
+        title: " лоремова 3 ",
+        subtitle: " ипсума анатольевна ",
+        desc: " lorem ipsum dolor ",
+        list: [
+          {
+            id: 1,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          },
+          {
+            id: 2,
+            title: "lorem ipsum dolor"
+          },
+          {
+            id: 3,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          },
+          {
+            id: 4,
+            title:
+              " lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor "
+          },
+          {
+            id: 5,
+            title: "lorem ipsum dolor"
+          },
+          {
+            id: 6,
+            title: "lorem ipsum dolor lorem ipsum dolor"
+          }
+        ],
+        extra_title: "lorem ipsum dolor",
+        extra_text:
+          " lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolorlorem ipsum dolor lorem ipsum dolor ",
+        extra2_title: "lorem ipsum dolor",
+        extra2_text: " lorem ipsum dolor lorem ipsum dolor "
+      }]
     };
   },
   methods: {
@@ -117,6 +224,7 @@ export default {
 }
 .row-bg {
   padding: 10px 0;
+  padding-right: 0;
   background-color: #f9fafc;
 }
 .el-select .el-input {
@@ -130,9 +238,22 @@ export default {
 .nav-left {
   height: 1000px;
   background-color: #99a9bf;
+  padding-right: 0!important;
 }
 .main-right{
   height: 1000px;
   background-color: #99a9bf;
+  padding-right: 0!important;
+}
+
+.header-logo{
+  height: 75px;
+}
+.header-right{
+  height: 75px;
+}
+.el-input-group{
+  width: 50%!important;
+  padding: 17px;
 }
 </style>
