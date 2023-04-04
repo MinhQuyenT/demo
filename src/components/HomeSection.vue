@@ -6,7 +6,6 @@
         :option="option"
         :data="data"
         :page.sync="page"
-        @on-load="onLoad"
       ></avue-crud>
       <b-button variant="outline-primary" @click="getAllData()">Button</b-button>
     </b-card-text>
@@ -23,7 +22,7 @@
 </style>
 
 <script>
-import request from "@/utils/request";
+import axios from "axios";
 export default {
   name: "HomeSection",
   components: {},
@@ -34,7 +33,8 @@ export default {
       },
       crud: false,
       option: {
-        excelBtn: true,
+        addBtn:false,
+        excelBtn: false,
         border: true,
         index: true,
         expandLevel: 1,
@@ -107,33 +107,23 @@ export default {
     };
   },
   methods: {
-    // onLoad(page:any) {
-    //   //模拟分页
-    //   this.page.total = 40
-    // }
 
     fortmatResponse(res) {
       return JSON.stringify(res, null, 2);
     },
 
-    getAllData() {
+    async getAllData() {
       try {
         const api = {
           whseFabricChangeAction: "whseFabricChangeAction/view",
         };
-        const res = request({
+        const res = await axios({
           baseURL: "http://192.168.5.1:91/api/"+ api.whseFabricChangeAction,
           method: "get",
         });
-        const result = {
-          status: res.status + "-" + res.statusText,
-          headers: res.headers,
-          data: res.data,
-        };
-
-        console.log(result);
-        this.getResult = this.fortmatResponse(result);
-        console.log(this.getResult);
+    
+        console.log(res.data);
+     //   this.getResult = this.fortmatResponse(result);
       } catch (err) {
         this.getResult = this.fortmatResponse(err.response?.data) || err;
       }
