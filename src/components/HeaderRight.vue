@@ -21,7 +21,10 @@ export default {
   name: "App",
   components: {},
   data() {
-    return { input: "Hello" };
+    return { 
+      input: "Hello",
+      select:[]
+     };
   },
 };
 </script>

@@ -176,3 +176,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.nav-left{
+  border: 1xp solid #545c64;
+}
+</style>

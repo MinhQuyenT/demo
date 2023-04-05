@@ -1,28 +1,30 @@
 <template>
-  <v-app>
+  <div id="app">
     <el-row :gutter="20">
       <!-- Header -->
       <el-col :span="3">
-        <headerleft/>
+        <headerleft />
       </el-col>
       <el-col :span="21">
-        <headerright/>
-        </el-col>
+        <headerright />
+      </el-col>
     </el-row>
     <el-row :gutter="20">
       <!-- Nav -->
       <el-col :span="3">
-        <navmenuleft :color="color"/>
+        <navmenuleft :color="color" />
       </el-col>
       <!-- Main -->
-      <el-col :span="21" >
-    <homesection></homesection>
+      <el-col :span="21">
+        <homesection></homesection>
       </el-col>
     </el-row>
-  </v-app>
+    <nprogress-container class="nprogress-container"></nprogress-container>
+  </div>
 </template>
 
 <script>
+import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 import navmenuleft from "./components/NavMenuLeft.vue";
 import headerleft from "./components/HeaderLeft.vue";
 import headerright from "./components/HeaderRight.vue";
@@ -34,9 +36,10 @@ export default {
     headerleft,
     headerright,
     homesection,
+    NprogressContainer
   },
   data() {
-    return {input: "Hello",};
+    return { input: "Hello" };
   },
 
   created() {
@@ -70,6 +73,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~nprogress/nprogress.css';
 .el-row {
   margin-bottom: 20px;
   &:last-child {
@@ -106,11 +110,12 @@ export default {
 
 // css custom
 .nav-left {
-  height: 1000px;
-  background-color: #99a9bf;
+  height: 100%;
+  // background-color: #99a9bf;
+  border: 1px solid #99a9bf;
   padding-right: 0 !important;
 }
-.main-right {
+.main-right { 
   height: 1000px;
   background-color: #99a9bf;
   padding-right: 0 !important;

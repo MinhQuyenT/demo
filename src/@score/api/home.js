@@ -1,15 +1,19 @@
-import request from '@/utils/request'
+import http from "@/utils/http-comon";
 
 const api = {
-    whseFabricChangeAction: 'whseFabricChangeAction/view'
+  whseFabricChangeAction: "whseFabricChangeAction/view",
+};
+
+export function getData(parameter) {
+  return http({
+    url: api.whseFabricChangeAction,
+    method: "get",
+    params: parameter,
+  });
 }
 
-export default api
+const HomeService = {
+  getData: getData,
+};
 
-export function getData(parameter){
-    return request({
-        url: api.whseFabricChangeAction,
-        method: 'get',
-        params: parameter
-    })  
-}
+export default HomeService;
