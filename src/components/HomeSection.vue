@@ -1,12 +1,19 @@
 <template>
   <el-card shadow="always">
     <div>
+      <el-button type="success" class="" @click="report" :disabled="disabled"
+        >Báo Cáo</el-button
+      >
+      <el-button
+        type="primary"
+        class=""
+        @click="getAllData"
+        :disabled="disabled"
+        >Tìm Kiếm</el-button
+      >
       <el-card shadow="always">
-        <avue-form :option="optionForm1" v-model="param" > </avue-form>
-        <avue-form :option="optionForm2" v-model="param" > </avue-form>
-        <el-button type="primary" class="" @click="getAllData"
-          >Tìm Kiếm</el-button
-        >
+        <avue-form :option="optionForm1" v-model="param"> </avue-form>
+        <avue-form :option="optionForm2" v-model="param"> </avue-form>
       </el-card>
       <el-card shadow="always">
         <avue-crud
@@ -23,23 +30,26 @@
 
 <script>
 import http from "@/@score/api/home";
-import { crudOp,formOp1,formOp2 } from "./data";
+import { crudOp, formOp1, formOp2, configParam } from "./data";
+import Nprogress from "nprogress";
+// import { saveAs } from "file-saver";
 export default {
   name: "HomeSection",
-  components: {
-  },
+  components: {},
   data() {
     return {
-      loading:false,
+      loading: false,
       result: null,
-      form:{},
-      optionForm1:formOp1(this),
-      optionForm2:formOp2(this),
+      element: null,
+      disabled: false,
+      form: {},
+      optionForm1: formOp1(this),
+      optionForm2: formOp2(this),
       param: {},
       page: {
         pageSize: 20,
-        currentPage:1,
-        total:0,
+        currentPage: 1,
+        total: 0,
       },
       crud: false,
       option: crudOp(this),
@@ -47,23 +57,48 @@ export default {
     };
   },
   methods: {
-    async getAllData() {
-      this.loading = true
+     report() {
+      Nprogress.start();
+      var parameter = configParam(this.param);
       try {
-        var res = await http.getData({page: this.page.currentPage ,rows: this.page.pageSize, ...this.param});
+         http.downloadReport({ ...parameter }).then((response) => {
+           let url = response.request.responseURL;
+           let link = document.createElement("a");
+           link.href = url;
+           link.click();
+           Nprogress.done();
+        });
+      } catch (err) {
+        this.disabled = false;
+        Nprogress.done();
+        console.error(err);
+      }
+    },
+
+    async getAllData() {
+      var parameter = configParam(this.param);
+      this.loading = true;
+      this.disabled = true;
+      try {
+        var res = await http.getData({
+          page: this.page.currentPage,
+          rows: this.page.pageSize,
+          ...parameter,
+        });
         if (res) {
           this.loading = false;
-           var resPage = res.data;
-           this.page = {
-            pageSize:resPage.size,
-            currentPage:resPage.current,
-            total:resPage.total,
-           }
-           this.dataCrud = res.data.records;
-           console.log(this.dataCrud);
+          this.disabled = false;
+          var resPage = res.data;
+          this.page = {
+            pageSize: resPage.size,
+            currentPage: resPage.current,
+            total: resPage.total,
+          };
+          this.dataCrud = res.data.records;
         }
       } catch (err) {
         this.loading = false;
+        this.disabled = false;
         console.error(err);
       }
     },
@@ -71,6 +106,7 @@ export default {
       page.currentPage === 1 ? this.page.currentPage : this.getAllData();
     },
   },
+  computed: {},
 };
 </script>
 
