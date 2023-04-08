@@ -31,7 +31,6 @@
 <script>
 import http from "@/@score/api/home";
 import { crudOp, formOp1, formOp2, configParam } from "./data";
-import Nprogress from "nprogress";
 // import { saveAs } from "file-saver";
 export default {
   name: "HomeSection",
@@ -57,22 +56,12 @@ export default {
     };
   },
   methods: {
-     report() {
-      Nprogress.start();
+
+    report() {
       var parameter = configParam(this.param);
-      try {
-         http.downloadReport({ ...parameter }).then((response) => {
-           let url = response.request.responseURL;
-           let link = document.createElement("a");
-           link.href = url;
-           link.click();
-           Nprogress.done();
-        });
-      } catch (err) {
-        this.disabled = false;
-        Nprogress.done();
-        console.error(err);
-      }
+      var params = new URLSearchParams(parameter).toString();
+      var url = `http://192.168.5.1:91/api/whseFabricChangeAction/report${params?'?'+params:''}`;
+      window.open(url,"Download")
     },
 
     async getAllData() {
@@ -102,6 +91,7 @@ export default {
         console.error(err);
       }
     },
+
     onLoad(page) {
       page.currentPage === 1 ? this.page.currentPage : this.getAllData();
     },

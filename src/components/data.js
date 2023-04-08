@@ -184,14 +184,14 @@ export function formOp2() {
 }
 
 export function configParam(parameter) {
-
-  var param = parameter
+  let param = { ...parameter };
   Object.keys(param).forEach((key) => {
-    if (param[key] == null || param[key] == undefined || param[key] == "" || param[key] == key.includes("%")) {
+    let checkParam = !!param[key]
+    if (!checkParam) {
       delete param[key];
+    } else if (!param[key].includes('%')) {
+      param[key] = `%${param[key]}`
     }
   })
-  console.log(param);
-
   return param;
 }
